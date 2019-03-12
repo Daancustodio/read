@@ -57,7 +57,11 @@ namespace HowTo
 }
 ```
 
-## Consumindo service layer, Inserção e busca de item
+## Consumindo service layer
+* Se faz necessário criar uma classe que represente o modelo que deseja manipular.
+* Informar em qual Path o recurso se encontra no service layer
+
+* Abaixo exemplo utilizando de inserção e busca de um Item
 ```
 using System;
 using SapHanaServiceLayerClient.Service;
