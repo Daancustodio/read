@@ -37,6 +37,7 @@ namespace HowTo
 {
     class Program
     {
+        IBusinessOneServiceLayer _businessOneServiceLayer;
         static void Main(string[] args)
         {
             ConfigureServiceLayer();           
@@ -45,13 +46,59 @@ namespace HowTo
 
         private static void login()
         {
-            IBusinessOneServiceLayer businessOneServiceLayer = new BusinessOneServiceLayer();           
-            businessOneServiceLayer.Auth("manager", "password", "CompanyDB");
+            this._businessOneServiceLayer = new BusinessOneServiceLayer();           
+            this._businessOneServiceLayer.Auth("manager", "password", "CompanyDB");
         }
         private static void ConfigureServiceLayer()
         {
             ServiceLayerSettings.BaseUrl = "http://hanab1:50001/b1s/v1";
         }
+    }
+}
+```
+
+## Consumindo service layer, Inserção e busca de item
+```
+using System;
+using SapHanaServiceLayerClient.Service;
+namespace HowTo
+{
+    class Program
+    {
+        IBusinessOneServiceLayer _businessOneServiceLayer;
+        static void Main(string[] args)
+        {
+            ConfigureServiceLayer();           
+            Login();
+            InserItem();
+            LoadItem();
+        }        
+        
+        private static void Login()
+        {...
+        }
+        private static void ConfigureServiceLayer()
+        { ...           
+        }
+
+        private static void InserItem()
+        {
+            var item = new Item() { ItemCode = "T0099", ItemName = "Descrição do item" };
+            var path = ServiceLayerPathEntitiesEnum.Items;
+            this._businessOneServiceLayer.Add(path, item);
+        }
+
+        private static void LoadItem()
+        {
+            var item = this._businessOneServiceLayer.GetByIdentity<Item>(this.Path, "T0099");
+        }
+   
+    }
+
+    class Item
+    {
+        public string ItemCode { get; set; }
+        public string ItemName { get; set; }
     }
 }
 ```
